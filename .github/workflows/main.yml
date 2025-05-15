@@ -1,0 +1,95 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Create application-prod.yml
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_PROD_YML }}" > src/main/resources/application-prod.yml
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: build/libs/*.jar
+
+  docker-build-and-push:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success() && github.event_name == 'push'
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: build/libs/
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/teamweb:latest
+
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    if: success() && github.event_name == 'push'
+    
+    steps:
+      - name: Deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            sudo docker stop task-management-container || true
+            sudo docker rm task-management-container || true
+            
+            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/teamweb:latest
+            
+            sudo docker run -d \
+              --name task-management-container \
+              -p 8080:8080 \
+              -e SPRING_PROFILES_ACTIVE=prod \
+              ${{ secrets.DOCKER_HUB_USERNAME }}/teamweb:latest
+            
+            docker system prune -f
