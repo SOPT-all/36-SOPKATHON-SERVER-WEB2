@@ -92,4 +92,4 @@ jobs:
               -e SPRING_PROFILES_ACTIVE=prod \
               ${{ secrets.DOCKER_HUB_USERNAME }}/teamweb:latest
             
-            docker system prune -f
+            sudo docker system prune -f
