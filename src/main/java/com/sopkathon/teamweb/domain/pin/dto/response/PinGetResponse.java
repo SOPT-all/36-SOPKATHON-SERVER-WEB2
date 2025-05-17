@@ -3,11 +3,13 @@ package com.sopkathon.teamweb.domain.pin.dto.response;
 import java.util.List;
 
 import com.sopkathon.teamweb.domain.pin.domain.Pin;
+import com.sopkathon.teamweb.domain.pin.domain.constant.Region;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Review;
 
 public record PinGetResponse(
 	long pinId,
 	String placeName,
+	String regionName,
 	double latitude,
 	double longitude,
 	String image,
@@ -20,6 +22,7 @@ public record PinGetResponse(
 		return new PinGetResponse(
 			pin.getId(),
 			pin.getPlaceName(),
+			Region.getName(pin.getRegion()),
 			pin.getLatitude(),
 			pin.getLongitude(),
 			pin.getImage(),
