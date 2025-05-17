@@ -2,6 +2,7 @@ package com.sopkathon.teamweb.domain.pin.domain;
 
 import java.util.List;
 
+import com.sopkathon.teamweb.domain.pin.domain.constant.DefaultMark;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Region;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Review;
 import com.sopkathon.teamweb.domain.user.domain.User;
@@ -45,6 +46,8 @@ public class Pin extends BaseEntity {
 	private long like;
 
 	private long hate;
+
+	private DefaultMark defaultMark; // 생성시 O,X 표시
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
