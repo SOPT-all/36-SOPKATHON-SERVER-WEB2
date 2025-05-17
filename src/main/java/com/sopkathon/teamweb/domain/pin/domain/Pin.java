@@ -42,6 +42,10 @@ public class Pin extends BaseEntity {
 
 	private String image;
 
+	private long like;
+
+	private long hate;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User author;
