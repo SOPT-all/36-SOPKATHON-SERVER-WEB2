@@ -3,7 +3,8 @@ package com.sopkathon.teamweb.domain.pin.domain.constant;
 import java.util.Arrays;
 
 public enum Region {
-	청주시, 충주시;
+	청주시, 충주시, 제천시, 보은군, 옥천군, 영동군, 진천군,
+	괴산군, 음성군, 단양군, 증평군;
 
 	// String으로부터 Region을 찾는 정적 메서드
 	public static Region fromString(String value) {
