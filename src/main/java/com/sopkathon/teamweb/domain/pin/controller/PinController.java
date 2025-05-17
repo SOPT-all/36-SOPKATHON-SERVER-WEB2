@@ -33,4 +33,12 @@ public class PinController {
 
 		return ResponseDto.ok(responses);
 	}
+
+	@GetMapping("/regions")
+	public ResponseDto<List<String>> getRegionRank() {
+		List<String> responses = pinService.getRegionRank();
+
+		return ResponseDto.ok(responses);
+	}
+
 }
