@@ -3,7 +3,7 @@ package com.sopkathon.teamweb.domain.pin.domain.constant;
 import java.util.Arrays;
 
 public enum Region {
-	청주, 충주;
+	청주시, 충주시;
 
 	// String으로부터 Region을 찾는 정적 메서드
 	public static Region fromString(String value) {

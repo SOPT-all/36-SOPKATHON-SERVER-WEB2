@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sopkathon.teamweb.infra.exception.ImageUploadFailException;
+
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -44,11 +46,16 @@ public class S3Service {
 	}
 
 	// 단일 파일 업로드를 위한 메소드 추가
-	public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+	public String upload(MultipartFile multipartFile, String dirName)  {
 		List<MultipartFile> files = new ArrayList<>();
 		files.add(multipartFile);
-		List<String> urls = upload(files, dirName);
-		return urls.isEmpty() ? null : urls.get(0);
+		try{
+			List<String> urls = upload(files, dirName);
+			return urls.isEmpty() ? null : urls.get(0);
+		} catch (IOException e){
+			throw new ImageUploadFailException();
+
+		}
 	}
 
 	// 다중 파일 업로드
