@@ -5,6 +5,7 @@ import java.util.List;
 import com.sopkathon.teamweb.domain.pin.domain.constant.DefaultMark;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Region;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Review;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateRequest;
 import com.sopkathon.teamweb.domain.user.domain.User;
 import com.sopkathon.teamweb.global.common.entity.BaseEntity;
 
@@ -21,6 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +37,7 @@ public class Pin extends BaseEntity {
 
 	private String placeName;
 
-	private String oneliner;
+	private String oneliner; // 한 줄 평가
 
 	private Double latitude;
 
@@ -78,4 +80,46 @@ public class Pin extends BaseEntity {
 
 		return total > 0 ? Math.round((double)hates / total * 100) : 0;
 	}
+
+	@Builder
+	public Pin(String placeName, String oneliner, Double latitude, Double longitude, String image, long likeCount,
+		long hateCount, DefaultMark defaultMark, User author, List<Review> reviews, Region region) {
+		this.placeName = placeName;
+		this.oneliner = oneliner;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.image = image;
+		this.likeCount = likeCount;
+		this.hateCount = hateCount;
+		this.defaultMark = defaultMark;
+		this.author = author;
+		this.reviews = reviews;
+		this.region = region;
+	}
+
+	public static Pin makePin(boolean isCorrect, String placeName, String oneliner, double latitude,
+		double longitude, String image, List<Review> reviews, Region region) {
+
+		//isCorrect 가 1 이면 DefaultMark 를 O로 설정
+		DefaultMark mark = isCorrect ? DefaultMark.O : DefaultMark.X;
+
+		long likeCount = isCorrect ? 1L : 0L;
+		long hateCount = isCorrect ? 0L : 1L;
+
+		return Pin.builder()
+			.placeName(placeName)
+			.oneliner(oneliner)
+			.latitude(latitude)
+			.longitude(longitude)
+			.image(image)
+			.likeCount(likeCount) // 기본값
+			.hateCount(hateCount) // 기본값
+			.defaultMark(mark) // enum 기본값 또는 null 가능
+			.reviews(reviews)
+			.region(region)
+			.build();
+	}
+
+
 }
+
