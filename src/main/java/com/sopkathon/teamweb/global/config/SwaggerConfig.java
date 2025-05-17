@@ -23,9 +23,9 @@ public class SwaggerConfig {
 	public GroupedOpenApi publicApi() {
 		return GroupedOpenApi.builder()
 			.group("public-api")
-			.pathsToMatch("/**")
-			.packagesToScan("com.sopt.todomate")
-			.packagesToExclude("com.sopt.todomate.global.exception") // 예외 처리 패키지 제외
+			.pathsToMatch("/**")  // 모든 경로 매칭
+			.packagesToScan("com.sopkathon.teamweb")
+			.packagesToExclude("com.sopkathon.teamweb.global.common.exception")
 			.build();
 	}
 }

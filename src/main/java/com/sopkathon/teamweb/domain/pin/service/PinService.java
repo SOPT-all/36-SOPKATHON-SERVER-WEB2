@@ -1,6 +1,4 @@
-package com.sopkathon.teamweb.domain.pin;
-
-import java.util.List;
+package com.sopkathon.teamweb.domain.pin.service;
 
 import org.springframework.stereotype.Service;
 
@@ -15,10 +13,9 @@ import lombok.RequiredArgsConstructor;
 public class PinService {
 	private final PinRepository pinRepository;
 
-	public List<PinGetResponse> getPins() {
-		List<Pin> pins = pinRepository.findAll();
-		return pins.stream().map(
-			PinGetResponse::from
-		).toList();
+	public PinGetResponse getPinDetail(long pinId) {
+		Pin pin = pinRepository.findById(pinId).get();
+
+		return PinGetResponse.from(pin);
 	}
 }

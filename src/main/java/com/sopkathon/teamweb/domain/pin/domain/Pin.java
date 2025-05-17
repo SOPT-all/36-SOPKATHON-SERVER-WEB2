@@ -43,10 +43,11 @@ public class Pin extends BaseEntity {
 
 	private String image;
 
-	private long like;
+	private long likeCount;
 
-	private long hate;
+	private long hateCount;
 
+	@Enumerated(EnumType.STRING)
 	private DefaultMark defaultMark; // 생성시 O,X 표시
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -61,18 +62,18 @@ public class Pin extends BaseEntity {
 	private Region region;
 
 	private long getTotal() {
-		return this.like + this.hate;
+		return this.likeCount + this.hateCount;
 	}
 
 	public long getLikeRate() {
-		long likes = this.like;
+		long likes = this.likeCount;
 		long total = getTotal();
 
 		return total > 0 ? Math.round((double)likes / total * 100) : 0;
 	}
 
 	public long getHateRate() {
-		long hates = this.hate;
+		long hates = this.hateCount;
 		long total = getTotal();
 
 		return total > 0 ? Math.round((double)hates / total * 100) : 0;

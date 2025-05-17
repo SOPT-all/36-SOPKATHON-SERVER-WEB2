@@ -1,13 +1,17 @@
 package com.sopkathon.teamweb.domain.pin.dto.response;
 
+import java.util.List;
+
 import com.sopkathon.teamweb.domain.pin.domain.Pin;
+import com.sopkathon.teamweb.domain.pin.domain.constant.Review;
 
 public record PinGetResponse(
 	long pinId,
 	double latitude,
 	double longitude,
 	String image,
-	String content,
+	String oneLiner,
+	List<Review> reviews,
 	long likeRate,
 	long hateLate
 ) {
@@ -18,6 +22,7 @@ public record PinGetResponse(
 			pin.getLongitude(),
 			pin.getImage(),
 			pin.getOneliner(),
+			pin.getReviews(),
 			pin.getLikeRate(),
 			pin.getHateRate()
 		);
