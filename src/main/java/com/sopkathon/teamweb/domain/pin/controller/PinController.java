@@ -1,10 +1,13 @@
 package com.sopkathon.teamweb.domain.pin.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sopkathon.teamweb.domain.pin.dto.response.PinAllGetResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinGetResponse;
 import com.sopkathon.teamweb.domain.pin.service.PinService;
 import com.sopkathon.teamweb.global.common.dto.ResponseDto;
@@ -23,4 +26,19 @@ public class PinController {
 
 		return ResponseDto.ok(response);
 	}
+
+	@GetMapping
+	public ResponseDto<List<PinAllGetResponse>> getPinAll() {
+		List<PinAllGetResponse> responses = pinService.getPinAll();
+
+		return ResponseDto.ok(responses);
+	}
+
+	@GetMapping("/regions")
+	public ResponseDto<List<String>> getRegionRank() {
+		List<String> responses = pinService.getRegionRank();
+
+		return ResponseDto.ok(responses);
+	}
+
 }
