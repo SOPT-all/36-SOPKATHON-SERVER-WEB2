@@ -1,10 +1,15 @@
 package com.sopkathon.teamweb.domain.pin.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateRequest;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinGetResponse;
 import com.sopkathon.teamweb.domain.pin.service.PinService;
 import com.sopkathon.teamweb.global.common.dto.ResponseDto;
@@ -22,5 +27,13 @@ public class PinController {
 		PinGetResponse response = pinService.getPinDetail(pinId);
 
 		return ResponseDto.ok(response);
+	}
+
+	@PostMapping
+	public ResponseDto<PinCreateResponse> createPin(@RequestBody PinCreateRequest createRequest) {
+
+		PinCreateResponse response = pinService.createPin(createRequest);
+
+		return ResponseDto.created(response);
 	}
 }
