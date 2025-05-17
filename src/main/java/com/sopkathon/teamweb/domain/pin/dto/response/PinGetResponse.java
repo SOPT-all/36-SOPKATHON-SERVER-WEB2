@@ -7,6 +7,7 @@ import com.sopkathon.teamweb.domain.pin.domain.constant.Review;
 
 public record PinGetResponse(
 	long pinId,
+	String placeName,
 	double latitude,
 	double longitude,
 	String image,
@@ -18,6 +19,7 @@ public record PinGetResponse(
 	public static PinGetResponse from(Pin pin) {
 		return new PinGetResponse(
 			pin.getId(),
+			pin.getPlaceName(),
 			pin.getLatitude(),
 			pin.getLongitude(),
 			pin.getImage(),
