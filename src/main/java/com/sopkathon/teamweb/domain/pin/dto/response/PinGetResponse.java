@@ -7,7 +7,9 @@ public record PinGetResponse(
 	double latitude,
 	double longitude,
 	String image,
-	String content
+	String content,
+	long likeRate,
+	long hateLate
 ) {
 	public static PinGetResponse from(Pin pin) {
 		return new PinGetResponse(
@@ -15,7 +17,9 @@ public record PinGetResponse(
 			pin.getLatitude(),
 			pin.getLongitude(),
 			pin.getImage(),
-			pin.getOneliner()
+			pin.getOneliner(),
+			pin.getLikeRate(),
+			pin.getHateRate()
 		);
 	}
 }

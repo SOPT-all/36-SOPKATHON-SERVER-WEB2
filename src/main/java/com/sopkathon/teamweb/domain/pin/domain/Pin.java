@@ -56,4 +56,22 @@ public class Pin extends BaseEntity {
 
 	@Enumerated(EnumType.STRING)
 	private Region region;
+
+	private long getTotal() {
+		return this.like + this.hate;
+	}
+
+	public long getLikeRate() {
+		long likes = this.like;
+		long total = getTotal();
+
+		return total > 0 ? Math.round((double)likes / total * 100) : 0;
+	}
+
+	public long getHateRate() {
+		long hates = this.hate;
+		long total = getTotal();
+
+		return total > 0 ? Math.round((double)hates / total * 100) : 0;
+	}
 }
