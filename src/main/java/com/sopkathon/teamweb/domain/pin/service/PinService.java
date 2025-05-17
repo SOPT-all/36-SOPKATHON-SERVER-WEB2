@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.sopkathon.teamweb.domain.pin.domain.Pin;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinAllGetResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinGetResponse;
+import com.sopkathon.teamweb.domain.pin.excepiton.PinNotFoundException;
 import com.sopkathon.teamweb.domain.pin.repository.PinRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class PinService {
 	private final PinRepository pinRepository;
 
 	public PinGetResponse getPinDetail(long pinId) {
-		Pin pin = pinRepository.findById(pinId).get();
+		Pin pin = pinRepository.findById(pinId).orElseThrow(PinNotFoundException::new);
 
 		return PinGetResponse.from(pin);
 	}

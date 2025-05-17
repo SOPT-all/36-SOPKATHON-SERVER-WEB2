@@ -11,10 +11,10 @@ public enum ExceptionCode {
 	INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "c4000", "잘못된 요청입니다."),
 	EMPTY_USER_ID(HttpStatus.BAD_REQUEST, "c40010", "유저ID는 필수입니다."),
 
-
 	//404
 	NOT_FOUND(HttpStatus.NOT_FOUND, "c4040", "리소스가 존재하지 않습니다."),
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "c4042", "사용자가 존재하지 않습니다."),
+	PIN_NOT_FOUND(HttpStatus.NOT_FOUND, "c4043", "핀이 존재하지 않습니다."),
 
 	//405
 	METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "c4050", "잘못된 HTTP method 요청입니다."),
