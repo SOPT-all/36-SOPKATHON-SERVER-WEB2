@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.sopkathon.teamweb.domain.pin.domain.Pin;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateRequest;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateResponse;
 import com.sopkathon.teamweb.domain.pin.domain.constant.Region;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinAllGetResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinGetResponse;
@@ -40,5 +42,15 @@ public class PinService {
 		return results.stream()
 			.map(result -> Region.getName(result[0]))
 			.toList();
+	}
+
+	public PinCreateResponse createPin(PinCreateRequest req) {
+		Pin pin = Pin.makePin(req.isCorrect(), req.placeName(),req.oneliner(),
+			req.latitude(), req.longitude(), req.image(), req.reviews(),
+			req.region());
+
+		pinRepository.save(pin);
+
+		return PinCreateResponse.from(pin);
 	}
 }
