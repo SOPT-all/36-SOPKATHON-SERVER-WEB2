@@ -15,7 +15,7 @@ public record PinGetResponse(
 			pin.getLatitude(),
 			pin.getLongitude(),
 			pin.getImage(),
-			pin.getContent()
+			pin.getOneliner()
 		);
 	}
 }
