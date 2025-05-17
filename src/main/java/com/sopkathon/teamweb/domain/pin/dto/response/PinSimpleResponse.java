@@ -10,7 +10,7 @@ public record PinSimpleResponse(
 	String image,
 	List<Review> reviews,
 	long likeRate,
-	long hateLate
+	long hateRate
 ) {
 
 	public static PinSimpleResponse from(Pin pin) {
