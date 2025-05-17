@@ -1,10 +1,7 @@
 package com.sopkathon.teamweb.domain.pin.controller;
 
-import static org.springframework.http.MediaType.*;
-
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.sopkathon.teamweb.domain.pin.dto.response.PinAllGetResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateRequest;
@@ -34,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 public class PinController {
 	private final PinService pinService;
 
-	@GetMapping("/detail")
-	public ResponseDto<PinGetResponse> getPinDetail(@RequestHeader Long pinId) {
+	@GetMapping("/detail/{pinId}")
+	public ResponseDto<PinGetResponse> getPinDetail(@PathVariable Long pinId) {
 		PinGetResponse response = pinService.getPinDetail(pinId);
 
 		return ResponseDto.ok(response);
@@ -72,6 +66,5 @@ public class PinController {
 		PinSimpleResponse response = pinService.votePin(userId, pinId, pinVoteRequest);
 		return ResponseDto.ok(response);
 	}
-
 
 }
