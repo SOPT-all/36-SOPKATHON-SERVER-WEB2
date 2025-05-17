@@ -81,6 +81,15 @@ public class Pin extends BaseEntity {
 		return total > 0 ? Math.round((double)hates / total * 100) : 0;
 	}
 
+	public void increaseLikeCount() {
+		this.likeCount += 1;
+	}
+
+	public void increaseHateCount() {
+		this.hateCount += 1;
+
+	}
+
 	@Builder
 	public Pin(String placeName, String oneliner, Double latitude, Double longitude, String image, long likeCount,
 		long hateCount, DefaultMark defaultMark, User author, List<Review> reviews, Region region) {
@@ -98,7 +107,7 @@ public class Pin extends BaseEntity {
 	}
 
 	public static Pin makePin(boolean isCorrect, String placeName, String oneliner, double latitude,
-		double longitude, String image, List<Review> reviews, Region region) {
+		double longitude, String image, List<Review> reviews, Region region, User user) {
 
 		//isCorrect 가 1 이면 DefaultMark 를 O로 설정
 		DefaultMark mark = isCorrect ? DefaultMark.O : DefaultMark.X;
@@ -117,6 +126,7 @@ public class Pin extends BaseEntity {
 			.defaultMark(mark) // enum 기본값 또는 null 가능
 			.reviews(reviews)
 			.region(region)
+			.author(user)
 			.build();
 	}
 

@@ -1,19 +1,28 @@
 package com.sopkathon.teamweb.domain.pin.controller;
 
+import static org.springframework.http.MediaType.*;
+
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sopkathon.teamweb.domain.pin.dto.response.PinAllGetResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateRequest;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinCreateResponse;
 import com.sopkathon.teamweb.domain.pin.dto.response.PinGetResponse;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinSimpleResponse;
+import com.sopkathon.teamweb.domain.pin.dto.response.PinVoteRequest;
 import com.sopkathon.teamweb.domain.pin.service.PinService;
 import com.sopkathon.teamweb.global.common.dto.ResponseDto;
 
@@ -46,12 +55,23 @@ public class PinController {
 		return ResponseDto.ok(responses);
 	}
 
-
 	@PostMapping
-	public ResponseDto<PinCreateResponse> createPin(@RequestBody PinCreateRequest createRequest) {
+	public ResponseDto<PinCreateResponse> createPin(
+		@RequestHeader Long userId,
+		@RequestBody PinCreateRequest createRequest) {
 
-		PinCreateResponse response = pinService.createPin(createRequest);
+		PinCreateResponse response = pinService.createPin(createRequest, userId);
 
 		return ResponseDto.created(response);
 	}
+
+	@PatchMapping("/{userId}/{pinId}")
+	public ResponseDto<PinSimpleResponse> votePin(@PathVariable("userId") Long userId,
+		@PathVariable("pinId") Long pinId, @RequestBody PinVoteRequest pinVoteRequest) {
+
+		PinSimpleResponse response = pinService.votePin(userId, pinId, pinVoteRequest);
+		return ResponseDto.ok(response);
+	}
+
+
 }
